@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App With Vanilla JS</title>
+    <!-- css -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="homepage.css">
+    <!-- bootstrap links 
+      <link rel="stylesheet" href="home.css">
+    -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+      />
+      <!-- fontAweosum -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <!-- googleFonts -->
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Tangerine|Lato|Gamja+Flower|Open+Sans|Roboto+Slab|Indie+Flower|Lobster|Open+Sans|Kosugi+Maru"
+    />
+  </head>
+  
+  <body onload="loadbody()">
+    
+    <nav>
+      <ul>
+
+      <li>
+      
+
+          <div class="title">Finance Tracker</div>
+        
+        <a class="btn btn-secondary btn-sm" style="margin: 0 20px;" href="login.html">
+          <i class="fas fa-sign-in-alt"></i> Inicia sesion
+        </a>
+      </div>
+        <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        data-toggle="modal"
+      data-target="#exampleModal"
+    >
+      <i class="fa fa-plus"></i> Registrate</button
+    >
+    
+  
+    <!-- date and time section -->
+  </li>  
+</ul>
+  </nav>
+
+  <div class="container-home">
+
+    <div class="my-container">
+      <h3>Bienvenido, <span>a Finance Tracker</span></h3>
+      <h5>Transforma tu forma de llevar los gastos en tu dia a dia</h5>
+  <button class="cta">Unete a nosotros</button>
+  <!-- 
+  <style>
+    
+  </style>
+
+    <div class="date-time">
+      <span id="date">date</span>
+      <span id="month">month</span>
+      <span id="year">year</span>
+      <span id="weekday">weekday</span>
+    </div>
+  -->
+  <br />
+    <!-- todo-form 
+      <div class="container">
+        <form autocomplete="off" class="form-group" id="form">
+          <input type="text" class="form-control" id="todos" disabled /><br />
+          <button type="submit" class="btn btn-success btn-block" disabled>
+            ADD
+          </button>
+      </form>
+      <br />
+      <div class="error" style="text-align: center;">
+        Tu no tienes acceso a esta aplicacion, por favor registra tu cuenta o inicia sesion si ya te registraste
+        
+      </div>
+    -->
+    </div>
+
+    <div class="svgContainer">
+
+      <img src="/public/undraw_project_complete_lwss.svg" alt="" srcset="">
+    </div>
+  </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Registrate</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form autocomplete="off" class="form-group" id="signup-form">
+              <label for="">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                required
+              /><br />
+              <label for="">Correo</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                required
+              /><br />
+              <label for="">Contrasena</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                required
+                minlength="6"
+              /><br />
+              <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
+          </div>
+          <div class="container error" id="signupError"></div>
+          <div class="container error" id="signupError2"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyD-FLu1IK97ktRebi1vuNYAUTpjzqqVA-8",
+        authDomain: "fir-project-d57ef.firebaseapp.com",
+        projectId: "fir-project-d57ef",
+        storageBucket: "fir-project-d57ef.appspot.com",
+        messagingSenderId: "741124589529",
+        appId: "1:741124589529:web:dd4409ae96c0a63a9ffbc8",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+    </script>
+
+    <script src="app.js"></script>
+  </body>
+</html>
