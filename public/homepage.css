@@ -2,45 +2,108 @@ nav ul{
      background-color: #2e384d; padding: 10px;
 }
 nav ul li{
-     display: flex; justify-content: center;
+     /*display: flex; justify-content: center;*/
 }
 nav ul li .title{
-     margin: 0px 120px; color: white;
+     margin: 0px 00px; color: white;
+     font-size: 20px;
+     font-weight: bold;
+     letter-spacing: 2px;
+     display: inline;
+     margin-right: 800px;
+     
+}
+.navcontainer{
+     display: flex;
+     justify-content: end;
+     align-items: center;
+     margin-right: 20px;
+     
+     
 }
 
 .cta{
      color: white;
-     background-color: #2e384d;
+     background-color: #28a745;
      margin-top: 20px;
-     border: none;
+     border: 2px solid #28a745;
      padding: 20px 40px;
+     font-weight: bold;
+     font-size: 24px;
+     transition: all .2s;
+     -webkit-transition: all .2s;
+     -moz-transition: all .2s;
+     -ms-transition: all .2s;
+     -o-transition: all .2s;
+}
+   .cta:hover{
+        border: 2px solid #28a745;
+        background-color: transparent;
+        color: #28a745;
+   }
+   .my-container h5{
+        font-size: 23px;
    }
      
      .my-container{
 
-       margin-top: 200px;
+       margin-top: 160px;
 
      
+   }
+   .my-container h3{
+        margin: 20px 0;
+     font-size: 35px;
+
+   }
+   .my-container h3 span{
+        color: #28a745;
+        font-weight: bold;
+        font-size: 35px;
    }
    .container-home{
         display: flex;
    }
    .my-container{
-     text-align:center ; width: 50%;
+     text-align:start ; width: 50%;
+     margin-left: 100px;
    }
    .btn-primary{
         border: #28a745 2px solid !important;
         background-color: #28a745 !important;
    }
    .btn-secondary{
-        color: #2e384d !important;
-        background-color: #fff !important;
+        color: white !important;
+        background-color: transparent !important;
+        border: 2px solid #28a745 !important;
    }
    .svgContainer{
         width: 50%;
    }
    .svgContainer img{width: 500px;}
 
+
+   /*Modal*/
+   
+   .modal-header{
+        background-color: #28a745;
+        
+        border-bottom: 3px solid #2e384d !important;
+     }
+     .modal-footer{
+        border-top: 2px solid #2e384d !important;
+        background-color: #2e384d;
+
+}
+.modal-body{
+     background-color: #2e384d;
+   }
+   label{
+        color: white;
+   }.modal-title{
+     color: white;
+     
+}
 /*Media Query*/   
 @media screen and (max-width: 530px) {
 html,

@@ -18,6 +18,10 @@ function loadbody() {
     spanWeekday.innerText = day
 }
 
+
+document.querySelector('.cta').addEventListener('click', () => {
+    location = './login.html'
+})
 // signup
 const signupForm = document.getElementById("signup-form");
 signupForm.addEventListener('submit', e => {

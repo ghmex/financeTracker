@@ -12,3 +12,8 @@ loginForm.addEventListener('submit', e => {
         loginError.innerText = err.message;
     })
 })
+
+
+document.querySelector('.registrate').addEventListener('click', () => {
+    location = "./home.html"
+})

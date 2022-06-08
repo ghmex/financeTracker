@@ -1,33 +1,27 @@
-const balance = document.getElementById("balance");
-const moneyPlus = document.getElementById("money-plus");
-const moneyMinus = document.getElementById("money-minus");
+const balanceTotal = document.getElementById("balance");
+const ingresos = document.getElementById("money-plus");
+const egresos = document.getElementById("money-minus");
 const list = document.getElementById("list");
 const form = document.getElementById("form");
 const text = document.getElementById("text");
 const amount = document.getElementById("amount");
 const notification = document.getElementById("notification");
 
-const dummyTransactions = [
-	/*
-	{ id: 1, text: "Flower", amount: -20 },
-	{ id: 2, text: "Salary", amount: 300 },
-	{ id: 3, text: "Book", amount: -10 },
-	{ id: 4, text: "Camera", amount: 150 },
-	*/
-];
+const todoElArray = [];
 
-let transactions = dummyTransactions;
+let transactions = todoElArray;
+//console.log(transactions);
 
 // LocalStorage is not enabled in CodePen for security reasons
-// const localStorageTransactions = JSON.parse(
-//   localStorage.getItem("transactions")
-// );
-// let transactions =
-//   localStorageTransactions !== null ? localStorageTransactions : [];
+const localStorageTransactions = JSON.parse(
+  localStorage.getItem("transactions")
+);
+transactions =
+  localStorageTransactions !== null ? localStorageTransactions : [];
 
-// function updateLocaleStorage() {
-//   localStorage.setItem("transactions", JSON.stringify(transactions));
-// }
+function updateLocaleStorage() {
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}
 
 function showNotification() {
   notification.classList.add("show");
@@ -37,42 +31,37 @@ function showNotification() {
 }
 
 function generateID() {
-	return Math.floor(Math.random() * 100000000);
+  return Math.floor(Math.random() * 100000000);
 }
-
 
 function addTransaction(e) {
   e.preventDefault();
   if (text.value.trim() === "" || amount.value.trim() === "") {
     showNotification();
   } else {
-      const transaction = {
-          id: generateID(),
-          text: text.value,
-          amount: +amount.value,
-      };
+    const transaction = {
+      id: generateID(),
+      text: text.value,
+      amount: +amount.value,
+    };
 
-      transactions.push(transaction);
-	 pushValueChart(parseInt(transaction.amount),transaction.text);
+    transactions.push(transaction);
 
-      addTransactionDOM(transaction);
-      updateValues();
-	// console.log(transaction.text);
-	 
-	 
-      // updateLocaleStorage();
-      text.value = "";
-      amount.value = "";
-	 closeEditModal()
-	}
+    addTransactionDOM(transaction);
+    pushValueChart(parseInt(amount.value), text.value);
+    updateValues();
+    updateLocaleStorage();
+    text.value = "";
+    amount.value = "";
+  }
 }
 
 function addTransactionDOM(transaction) {
-	const sign = transaction.amount < 0 ? "-" : "+";
-	const item = document.createElement("li");
-	item.classList.add(sign === "+" ? "plus" : "minus");
+  const sign = transaction.amount < 0 ? "-" : "+";
+  const item = document.createElement("li");
+  item.classList.add(sign === "+" ? "plus" : "minus");
 
-	/*
+  /*
 	
 	if(sign == "-"){
 		pushValueChart(parseInt(transaction.amount),transaction.text);
@@ -87,15 +76,22 @@ function addTransactionDOM(transaction) {
 		
 	}
 	*/
-	
-  // pushValueChart(parseInt(amount.value), text.value);
 
   item.innerHTML = `
-          ${transaction.text}  ${transaction.id} <span>${sign}${Math.abs(transaction.amount)}</span
-          ><button class="delete-btn" onclick="removeTransaction(${transaction.id /* transaction.text, transaction.amount*/}) 
-		"><i class="fa fa-times"></i></button>
+  ${transaction.text}  <span>${sign}${Math.abs(transaction.amount)}</span>
+  
+  <button class="delete-btn" onclick="removeTransaction(${
+    transaction.id /* transaction.text, transaction.amount*/
+  })"><i class="fa fa-times"></i></button>
+
+<button class="edit-btn" onclick="editTransaction(${
+    transaction.id
+  }) "><i class="fa-solid fa-pen-to-square"></i></button>
+		
     `;
+
   list.appendChild(item);
+  closeModal();
 }
 
 function updateValues() {
@@ -103,49 +99,54 @@ function updateValues() {
   const total = amounts
     .reduce((accumulator, value) => (accumulator += value), 0)
     .toFixed(2);
-  const income = amounts
+  const ingreso = amounts
     .filter((value) => value > 0)
     .reduce((accumulator, value) => (accumulator += value), 0)
     .toFixed(2);
-  const expense = (
+  const egreso = (
     amounts
       .filter((value) => value < 0)
       .reduce((accumulator, value) => (accumulator += value), 0) * -1
   ).toFixed(2);
-  balance.innerText = `$${total}`;
-  moneyPlus.innerText = `$${income}`;
-  moneyMinus.innerText = `$${expense}`;
+  balanceTotal.innerText = `$${total}`;
+  ingresos.innerText = `$${ingreso}`;
+  egresos.innerText = `$${egreso}`;
 }
 
 function removeTransaction(id) {
-  transactions = transactions.filter((transaction) => {
-	  transaction.id === id
-	  console.log(transaction.id)
-	console.log(myChart.data.datasets[0].data);
+  for (let i = 0; i < transactions.length; i++) {
+    console.log(`lONGITUD ES ${id}`);
+    if (transactions[i].id == id) {
+      transactions.splice(i, 1);
+      //let element = document.getElementById(i);
+      myChart.data.datasets[0].data.splice(i, 1);
+      myChart.data.labels.splice(i, 1);
+      myChart.update();
+      //console.log(element);
+    } else {
+      //console.log('Nothing');
+    }
+  }
+  updateLocaleStorage();
+  init();
+}
 
-
-	});
-
-
-
-	// console.log(transaction.id);
-	// updateLocaleStorage();
-	
-	
-	init();
-	//console.log(id, text, amount);
-	/*
-	myChart.data.datasets[0].data.splice(id, 1, parseInt(monto));
-	myChart.data.labels.splice(id, 1, item);
-	myChart.update();
-  */
+function editTransaction(id) {
+  console.log("Editar", id);
+  document.querySelector("#formEdit").addEventListener("submit", (e) => {
+    e.preventDefault();
+    console.log("Formulario editar");
+    let textEdit = document.querySelector("#textEdit").value;
+    let amountEdit = document.querySelector("#amountEdit").value;
+    console.log(textEdit, amountEdit);
+  });
 }
 
 // Init
 function init() {
   list.innerHTML = "";
   transactions.forEach(addTransactionDOM);
-  console.log(addTransactionDOM)
+  // console.log(addTransactionDOM)
   updateValues();
 }
 //console.log(transaction)
@@ -153,94 +154,32 @@ function init() {
 //onsole.log(init());
 
 form.addEventListener("submit", addTransaction);
+document.querySelector(".ButtonForm").addEventListener("click", showModal);
+document.querySelector(".close").addEventListener("click", closeModal);
 
-document.querySelector(".ButtonForm").addEventListener("click", showEditModal);
-
-function showEditModal() {
-    let containerEditModal = document.querySelector(".ModalForm");
-    containerEditModal.style.display = "flex";
+function showModal() {
+  let containerEditModal = document.querySelector(".ModalForm");
+  containerEditModal.style.display = "flex";
 }
 
-function closeEditModal() {
-    let containerEditModal = document.querySelector(".ModalForm");
-    containerEditModal.style.display = "none";
+function closeModal() {
+  let containerEditModal = document.querySelector(".ModalForm");
+  containerEditModal.style.display = "none";
 }
 
-document.querySelector(".close").addEventListener("click", ()=>document.querySelector(".ModalForm").style.display = "none");
+
+/*
+document.querySelector('.edit-btn').addEventListener('click', () => {
+	console.log('OK');
+})
+*/
+
+
 
 // function closeModal() {
 //     modal.style.display = "none";
 
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 colocar modal en historial para  mostrar los registros, 
@@ -318,8 +257,8 @@ function updateValues(){
 		
 	}
 	*/
-	
-		/*
+
+/*
 		const income = amounts
 		//.filter((value) => value /*> 0)
 		.reduce((accumulator, value) => (accumulator + value), 0)
@@ -482,57 +421,61 @@ function handleClose(id) {
 
 let ctx = document.getElementById("myChart").getContext("2d");
 let myChart = new Chart(ctx, {
-    type: "doughnut",
-    data: {
-        labels: [''],
-        datasets: [
-            {
-                label: "# of Votes",
-                //data: ,
-                data: [0.01], 
-                //data: ,
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(255, 206, 86, 0.2)",
-                    "rgba(75, 192, 192, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                    "rgba(255, 159, 64, 0.2)",
-                ],
-                borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(153, 102, 255, 1)",
-                    "red",
-                ],
-                borderWidth: 1,
-            },
+  type: "doughnut",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: "# of Votes",
+        //data: ,
+        data: [],
+        //data: ,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
         ],
-        hoverOffset: 4,
-    },
-    options: {
-        responsive: true,
-        // scales: {
-        // 	y: {
-        // 		beginAtZero: true,
-        // 	},
-        // },
-    },
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "red",
+        ],
+        borderWidth: 1,
+      },
+    ],
+    hoverOffset: 4,
+  },
+  options: {
+    responsive: true,
+    // scales: {
+    // 	y: {
+    // 		beginAtZero: true,
+    // 	},
+    // },
+  },
 });
 
+function pushValueChart(valueMonto, valueNota) {
+  myChart.data.datasets[0].data.push(valueMonto);
+  myChart.data.labels.push(valueNota);
+  myChart.update();
+}
 
-function pushValueChart (valueMonto, valueNota){
-	myChart.data.datasets[0].data.push(valueMonto);
-	myChart.data.labels.push(valueNota);
-	myChart.update();
+function removeFirstItemFromArray(dni, trasacion) {
+  trasacion.splice(dni, 1);
 }
 /*
 function removeValueChart(valueMonto, valueNota){
 	
 }
 */
+
 /*
 //.shift()
 
@@ -540,5 +483,4 @@ function removeValueChart(valueMonto, valueNota){
 function INIT() {
 	allArray.forEach(addItem);
 	updateValues()
-}
-	*/
+}*/
