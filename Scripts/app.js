@@ -7,7 +7,33 @@ const text = document.getElementById("text");
 const amount = document.getElementById("amount");
 const notification = document.getElementById("notification");
 
-const todoElArray = [];
+document.addEventListener("reload", () => {
+    //DOMContentLoaded
+    arrayActividades = JSON.parse(localStorage.getItem("transactions"));
+    if (arrayActividades === null) {
+        arrayActividades = [];
+    } else {
+        arrayActividades.forEach((element) => {
+            // if (element.id) {
+            //     listaActividadesUI.innerHTML += ``;
+            // } else {
+            //     listaActividadesUI.innerHTML += ``;
+            // }
+            //${sign}
+            list.innerHTML += ` 
+  			${element.text}<span>${Math.abs(element.amount)}</span>
+				<button class="delete-btn" onclick="removeTransaction(${
+                    element.id
+                })"><i class="fa fa-times"></i></button>
+				<button class="edit-btn" onclick="editTransaction(${
+                    element.id
+                }), showEditModal()"><i class="fa-solid fa-pen-to-square"></i></button>
+			`;
+        });
+    }
+});
+
+let todoElArray = [];
 
 let transactions = todoElArray;
 //console.log(transactions);
@@ -16,6 +42,7 @@ let transactions = todoElArray;
 const localStorageTransactions = JSON.parse(
   localStorage.getItem("transactions")
 );
+
 transactions =
   localStorageTransactions !== null ? localStorageTransactions : [];
 
@@ -61,34 +88,47 @@ function addTransactionDOM(transaction) {
   const item = document.createElement("li");
   item.classList.add(sign === "+" ? "plus" : "minus");
 
-  /*
-	
-	if(sign == "-"){
-		pushValueChart(parseInt(transaction.amount),transaction.text);
-		console.log('Menos');
-		//pushValueChart(transaction.amount);
-		console.log(transaction.amount);
-	}
-	if(sign == '+'){
-		console.log('Mas');
-		pushValueChart(parseInt(transaction.amount),transaction.text);
-		console.log(transaction.id);
+  
+//   const monto = transactions.map((transaction) => transaction.amount);
+
+//   console.log(monto);
+// 	console.log(transactions[0].amount)
+// 	if(sign == "-"){
+// 		pushValueChart(parseInt(transaction.amount),transaction.text);
+// 		console.log('Menos');
+// 		//pushValueChart(transaction.amount);
+// 		console.log(transaction.amount);
+// 		//let myCHART
+// 		let valueMonto = myChart.data.datasets[0].data[0];
+
+// 		const ingresot = valueMonto.reduce((accumulator, value) => (accumulator + value[0].amount), 0)
+// 		console.log(ingresot);
+// 		valueMonto += transactions[0].amount;
+//         myChart.data.labels.push(valueNota);
+//         myChart.update();
+// 	}
+// 	if(sign == '+'){
+// 		console.log('Mas');
+// 		pushValueChart(parseInt(transaction.amount),transaction.text);
+// 		console.log(transaction.id);
+// 		myChart.data.datasets[0].data[1].push(valueMonto);
+//         myChart.data.labels.push(valueNota);
+//         myChart.update();
 		
-	}
-	*/
+// 	}
+
+
+	
 
   item.innerHTML = `
-  ${transaction.text}  <span>${sign}${Math.abs(transaction.amount)}</span>
-  
-  <button class="delete-btn" onclick="removeTransaction(${
-    transaction.id /* transaction.text, transaction.amount*/
+  ${transaction.text}<span>${sign}${Math.abs(transaction.amount)}</span>
+<button class="delete-btn" onclick="removeTransaction(${
+      transaction.id
   })"><i class="fa fa-times"></i></button>
-
 <button class="edit-btn" onclick="editTransaction(${
-    transaction.id
-  }) "><i class="fa-solid fa-pen-to-square"></i></button>
-		
-    `;
+      transaction.id
+  }), showEditModal()"><i class="fa-solid fa-pen-to-square"></i></button>
+`;
 
   list.appendChild(item);
   closeModal();
@@ -108,7 +148,17 @@ function updateValues() {
       .filter((value) => value < 0)
       .reduce((accumulator, value) => (accumulator += value), 0) * -1
   ).toFixed(2);
-  balanceTotal.innerText = `$${total}`;
+
+  //if(total <= 10000){
+
+	  balanceTotal.innerText = `$${total}`;
+
+  //}
+
+//   porcentaje = valorinput*total/100;
+
+//   alert(porcentaje)
+
   ingresos.innerText = `$${ingreso}`;
   egresos.innerText = `$${egreso}`;
 }
@@ -119,6 +169,8 @@ function removeTransaction(id) {
     if (transactions[i].id == id) {
       transactions.splice(i, 1);
       //let element = document.getElementById(i);
+
+	  
       myChart.data.datasets[0].data.splice(i, 1);
       myChart.data.labels.splice(i, 1);
       myChart.update();
@@ -139,7 +191,45 @@ function editTransaction(id) {
     let textEdit = document.querySelector("#textEdit").value;
     let amountEdit = document.querySelector("#amountEdit").value;
     console.log(textEdit, amountEdit);
-  });
+    
+    for (let i = 0; i < transactions.length; i++) {
+        if (transactions[i].id === id) {
+			transactions.splice(i, 1, {
+                id: id,
+                text: textEdit,
+                amount: parseInt(amountEdit),
+            });
+			// transactions.splice(i,1,transactions[i].text = textEdit);
+			// transactions.splice(i,1,transactions[i].amount = parseInt(amountEdit));
+			
+			//,(amount = parseInt(amountEdit)
+				// allArray.splice(id, 1, {   transactions[i].amount = parseInt(amountEdit)
+				console.log(transactions);
+				
+            //     id: id,
+            //     monto: parseInt(editMonto),
+            //     nota: editInput,
+            // });
+            // allArray.splice(2, 1, nota = editInput);
+
+            /*
+			{
+			id:id,
+			    text: textEdit,
+			    amount: parseInt(amountEdit),
+			}
+			
+			updateValues();
+			
+			myChart.data.datasets[0].data[1].splice(id, 1, parseInt(amountEdit));
+			myChart.data.labels.splice(id, 1, textEdit);
+			myChart.update();
+			*/
+        }
+	}
+	document.querySelector("#formEdit").reset();
+	
+});
 }
 
 // Init
@@ -158,13 +248,25 @@ document.querySelector(".ButtonForm").addEventListener("click", showModal);
 document.querySelector(".close").addEventListener("click", closeModal);
 
 function showModal() {
-  let containerEditModal = document.querySelector(".ModalForm");
-  containerEditModal.style.display = "flex";
+  let containerModal = document.querySelector(".ModalForm");
+  containerModal.style.display = "flex";
 }
 
 function closeModal() {
-  let containerEditModal = document.querySelector(".ModalForm");
-  containerEditModal.style.display = "none";
+  let containerModal = document.querySelector(".ModalForm");
+  containerModal.style.display = "none";
+}
+
+document.querySelector(".closeEdit").addEventListener("click", closeEditModal);
+
+function showEditModal() {
+    let containerEditModal = document.querySelector(".ModalEdit");
+    containerEditModal.style.display = "flex";
+}
+
+function closeEditModal() {
+    let containerEditModal = document.querySelector(".ModalEdit");
+    containerEditModal.style.display = "none";
 }
 
 
@@ -423,7 +525,7 @@ let ctx = document.getElementById("myChart").getContext("2d");
 let myChart = new Chart(ctx, {
   type: "doughnut",
   data: {
-    labels: [],
+    labels: [""],
     datasets: [
       {
         label: "# of Votes",
@@ -431,21 +533,31 @@ let myChart = new Chart(ctx, {
         data: [],
         //data: ,
         backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
+"verde",
+		"rgba(0, 255, 255)", //Salarios
+			//"rgba(75, 192, 192, 0.2)", //Salarios
+
+"rgba(255,0,0,0.2)",
+"rgba(220,20,60,0.3)",
+"rgba(227,66,51,0.2)",
+
+
+			/*
+			"rgba(255, 206, 86, 0.2)",
+			"rgba(255, 99, 132, 0.2)",
+			"rgba(54, 162, 235, 0.2)",
+			"rgba(153, 102, 255, 0.2)",
+			"rgba(255, 159, 64, 0.2)",
+			*/
         ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
+        borderColor: [/*"
+			"rgba(75, 192, 192, 1)",
+			"rgba(255, 206, 86, 1)",
+        	"rgba(255, 99, 132, 1)",
           "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
           "rgba(153, 102, 255, 1)",
           "red",
-        ],
+	*/],
         borderWidth: 1,
       },
     ],
