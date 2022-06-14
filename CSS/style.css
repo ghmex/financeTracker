@@ -80,6 +80,7 @@ h3{
 	align-items: center;
 	justify-content:center;
 	flex-direction: column;
+  width: 100% !important;
 }
 
 h1 {
@@ -185,7 +186,7 @@ input[type="number"] {
 .list {
   list-style-type: none;
   padding: 0;
-  margin-bottom: 40px;
+  margin-bottom: 40px auto;
 }
 
 .list li {
@@ -195,6 +196,7 @@ input[type="number"] {
   display: flex;
   justify-content: space-between;
   position: relative;
+  left:-15%;
   padding: 10px;
   margin: 10px 0;
   border-top-left-radius: 5px;
@@ -382,4 +384,22 @@ list li:hover .edit-btn{
 	.containerSign {
 		width: 400px;
 	}
+  .balance-container{
+    margin:0 20px;
+  }
+  .inc-exp-container{
+    padding: 20px 40px;
+
+  }
+  .inc-exp-container h4{
+    margin:0 30px
+    
+  }
+  .lista{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
