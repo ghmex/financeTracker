@@ -16,9 +16,9 @@
   --background-secondary-color: #fff;
   --border-color: #80717f;
   --border-secondary-color: #bcc0cb;
-  --plus-color: #2ecc71;
+  --plus-color: rgb(46, 204, 113);
   --minus-color: #c0392b;
-  --red: #ef3434;
+  --red: rgb(239, 52, 52);
   --green: #0cb95a;
   --black: #2e384d;
   --white: #fff;
