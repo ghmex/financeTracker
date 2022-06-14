@@ -39,7 +39,7 @@ signupForm.addEventListener('submit', e => {
             Password: password
         }).then(() => {
             // console.log('success');
-            location = "login.html";
+            location = "public/login.html";
         }).catch(err => {
             // console.log(err.message);
             const signupError = document.getElementById('signupError');
